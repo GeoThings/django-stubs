@@ -45,25 +45,25 @@ def redefine_and_typecheck_model_init(ctx: FunctionContext) -> Type:
     base_pointer_args = extract_base_pointer_args(model)
 
     # check kwargs
-    for i, (actual_name, actual_type) in enumerate(zip(ctx.arg_names[1], ctx.arg_types[1])):
-        if actual_name in base_pointer_args:
-            # parent_ptr args are not supported
-            continue
-        if actual_name in visited_positionals:
-            continue
-        if actual_name is None:
-            # unpacked dict as kwargs is not supported
-            continue
-        if actual_name not in expected_types:
-            ctx.api.fail('Unexpected attribute "{}" for model "{}"'.format(actual_name,
-                                                                           model.name()),
-                         ctx.context)
-            continue
-        api.check_subtype(actual_type, expected_types[actual_name],
-                          ctx.context,
-                          'Incompatible type for "{}" of "{}"'.format(actual_name,
-                                                                      model.name()),
-                          'got', 'expected')
+#     for i, (actual_name, actual_type) in enumerate(zip(ctx.arg_names[1], ctx.arg_types[1])):
+#         if actual_name in base_pointer_args:
+#             # parent_ptr args are not supported
+#             continue
+#         if actual_name in visited_positionals:
+#             continue
+#         if actual_name is None:
+#             # unpacked dict as kwargs is not supported
+#             continue
+#         if actual_name not in expected_types:
+#             ctx.api.fail('Unexpected attribute "{}" for model "{}"'.format(actual_name,
+#                                                                            model.name()),
+#                          ctx.context)
+#             continue
+#         api.check_subtype(actual_type, expected_types[actual_name],
+#                           ctx.context,
+#                           'Incompatible type for "{}" of "{}"'.format(actual_name,
+#                                                                       model.name()),
+#                           'got', 'expected')
     return ctx.default_return_type
 
 
@@ -83,23 +83,23 @@ def redefine_and_typecheck_model_create(ctx: MethodContext) -> Type:
     base_pointer_args = extract_base_pointer_args(model)
     expected_types = extract_expected_types(ctx, model)
 
-    for actual_name, actual_type in zip(ctx.arg_names[0], ctx.arg_types[0]):
-        if actual_name in base_pointer_args:
-            # parent_ptr args are not supported
-            continue
-        if actual_name is None:
-            # unpacked dict as kwargs is not supported
-            continue
-        if actual_name not in expected_types:
-            api.fail('Unexpected attribute "{}" for model "{}"'.format(actual_name,
-                                                                       model.name()),
-                     ctx.context)
-            continue
-        api.check_subtype(actual_type, expected_types[actual_name],
-                          ctx.context,
-                          'Incompatible type for "{}" of "{}"'.format(actual_name,
-                                                                      model.name()),
-                          'got', 'expected')
+#     for actual_name, actual_type in zip(ctx.arg_names[0], ctx.arg_types[0]):
+#         if actual_name in base_pointer_args:
+#             # parent_ptr args are not supported
+#             continue
+#         if actual_name is None:
+#             # unpacked dict as kwargs is not supported
+#             continue
+#         if actual_name not in expected_types:
+#             api.fail('Unexpected attribute "{}" for model "{}"'.format(actual_name,
+#                                                                        model.name()),
+#                      ctx.context)
+#             continue
+#         api.check_subtype(actual_type, expected_types[actual_name],
+#                           ctx.context,
+#                           'Incompatible type for "{}" of "{}"'.format(actual_name,
+#                                                                       model.name()),
+#                           'got', 'expected')
 
     return ctx.default_return_type
 
