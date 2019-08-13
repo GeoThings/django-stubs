@@ -1,12 +1,14 @@
 import decimal
 import warnings
-from io import StringIO
 from contextlib import contextmanager
 from decimal import Decimal
-from typing import Any, Callable, Dict, Iterator, List, Optional, Set, Tuple, Type, Union, IO, Iterable, Mapping
+from io import StringIO
+from typing import Any, Callable, Dict, Iterable, Iterator, List, Mapping, Optional, Set, Tuple, Type, Union
 
 from django.apps.registry import Apps
 from django.core.checks.registry import CheckRegistry
+from django.db.models.lookups import Lookup, Transform
+from django.db.models.query_utils import RegisterLookupMixin
 from django.test.runner import DiscoverRunner
 from django.test.testcases import SimpleTestCase
 
@@ -14,6 +16,8 @@ from django.conf import LazySettings, Settings
 
 _TestClass = Type[SimpleTestCase]
 _DecoratedTest = Union[Callable, _TestClass]
+
+TZ_SUPPORT: bool = ...
 
 class Approximate:
     val: Union[decimal.Decimal, float] = ...
@@ -130,3 +134,7 @@ def teardown_databases(
     old_config: Iterable[Tuple[Any, str, bool]], verbosity: int, parallel: int = ..., keepdb: bool = ...
 ) -> None: ...
 def require_jinja2(test_func: Callable) -> Callable: ...
+@contextmanager
+def register_lookup(
+    field: Type[RegisterLookupMixin], *lookups: Type[Union[Lookup, Transform]], lookup_name: Optional[str] = ...
+) -> Iterator[None]: ...

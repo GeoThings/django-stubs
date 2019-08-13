@@ -1,9 +1,6 @@
-from datetime import datetime
-from typing import Any, Dict, Iterator, List, Mapping, Optional, Sequence, Type, Union
+from typing import Any, Dict, Iterator, List, Mapping, Optional, Sequence, Type, Union, Tuple
 
 from django.core.exceptions import ValidationError as ValidationError
-from django.core.files.uploadedfile import SimpleUploadedFile
-from django.db.models.query import QuerySet
 from django.forms.boundfield import BoundField
 from django.forms.fields import Field
 from django.forms.renderers import BaseRenderer
@@ -15,6 +12,8 @@ class DeclarativeFieldsMetaclass(MediaDefiningClass):
     def __new__(mcs, name: str, bases: Sequence[Type[BaseForm]], attrs: Dict[str, Any]) -> Type[BaseForm]: ...
 
 class BaseForm:
+    class Meta:
+        fields: Sequence[str] = ...
     default_renderer: Any = ...
     field_order: Any = ...
     use_required_attribute: bool = ...
